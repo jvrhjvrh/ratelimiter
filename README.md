@@ -11,11 +11,11 @@ Environment variables available are:
 
     - PORT: application port. Default value: 3000
     - USER_ID: string needed to authorize auth routes. Default value: testUser
-    - REDIS_HOST host of redis server. Default value: localhost
-    - REDIS_PORT port of redis server. Default value: 6379
-    - EXPIRE_TIME time for rate limiting to expire in seconds. Default value: 3600
-    - PUBLIC_MAX_VALUE max limit of calls for public routes. Default value: 100
-    - PRIVATE_MAX_VALUE max limit of calls for private routes. Default value: 200
+    - REDIS_HOST: host of redis server. Default value: localhost
+    - REDIS_PORT: port of redis server. Default value: 6379
+    - EXPIRE_TIME: time for rate limiting to expire in seconds. Default value: 3600
+    - PUBLIC_MAX_VALUE: max limit of calls for public routes. Default value: 100
+    - PRIVATE_MAX_VALUE: max limit of calls for private routes. Default value: 200
 
 This application was developed to showcase some use cases for middlewares, more specifically a rate limiter and an authenticator.
 
