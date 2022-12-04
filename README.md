@@ -28,3 +28,9 @@ Endpoints available to test are:
     - /auth Requires authentication (Authorization header equals to USER_ID environment variable) Increases private limit by 1
     - /auth/2 Requires authentication (Authorization header equals to USER_ID environment variable) Increases private limit by 2
     - /auth/5 Requires authentication (Authorization header equals to USER_ID environment variable) Increases private limit by 5
+
+If Limit has been surpassed application will return error 429 with the time you can make requests again in the body.
+
+If auth route without authorization or with wrong authorization application will return error 401.
+
+Application will also return in the headers both limit and current rate.

@@ -1,4 +1,8 @@
-const redisServer = require('../redis/redis');
+const {
+  increaseKey,
+  timeUntilExpiration,
+  addKeyExpiry
+} = require('../redis/redis');
 
 const privateMaxValue = process.env.PRIVATE_MAX_VALUE || 200;
 const publicMaxValue = process.env.PUBLIC_MAX_VALUE || 100;
@@ -9,15 +13,14 @@ const convertToDate = (unixTime) => {
 }
 
 const calculateRate = async (key, weight, maxValue) => {
-  //Increase value in redis by weight, if not exists redis will create and start key with weight value
-  const value = await redisServer.INCRBY(`${key}`, `${weight}`);
+  const value = await increaseKey(key, weight);
 
   //Not awaiting because it isn't relevant when it finishes
   //NX option makes sure there won't be overwriting of the expiry time
-  redisServer.EXPIRE(`${key}`, `${expireTime}`, 'NX');
+  addKeyExpiry(key, expireTime, 'NX');
 
   if (value >= maxValue) {
-    const time = await redisServer.EXPIRETIME(`${key}`);
+    const time = await timeUntilExpiration(key);
     return {
       currentUse: value,
       overLimit: true,
@@ -38,7 +41,7 @@ const rateLimiterMiddleware = (isPrivate, routeWeight) => async (req, res, next)
     key = req.headers.authorization;
     maxValue = privateMaxValue;
   } else {
-    key = req.socket.remoteAddess;
+    key = req.socket.remoteAddress;
     maxValue = publicMaxValue;
   }
 

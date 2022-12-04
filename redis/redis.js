@@ -10,4 +10,15 @@ const client = redis.createClient({
 
 client.connect();
 
-module.exports = client;
+//Increase value in redis by weight, if not exists redis will create and start key with weight value
+const increaseKey = async (key, weight) => client.INCRBY(`${key}`, `${weight}`);
+
+const addKeyExpiry = async (key, time, option) => client.EXPIRE(`${key}`, `${time}`, `${option}`);
+
+const timeUntilExpiration = async (key) => client.EXPIRETIME(`${key}`);
+
+module.exports = {
+  increaseKey,
+  addKeyExpiry,
+  timeUntilExpiration
+};

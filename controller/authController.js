@@ -1,9 +1,9 @@
+const userId = process.env.USER_ID || 'testUser'
+
 const isIdValid = (id) => {
-  return id === process.env.USER_ID || 'testUser';
+  return id === userId;
 };
 
-const db = {
+module.exports = {
   isIdValid,
 };
-
-module.exports = db;
